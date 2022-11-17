@@ -15,7 +15,8 @@ type course struct {
 
 func main() {
 	fmt.Println("Welcome to JSON video")
-	EncodeJson()
+	// EncodeJson()
+	DecodeJson()
 }
 
 func EncodeJson() {
@@ -32,4 +33,39 @@ func EncodeJson() {
 	}
 
 	fmt.Printf("%s\n", finalJson)
+}
+
+func DecodeJson() {
+	jsonDataFromWeb := []byte(`
+	{
+		"coursename": "Reactjs Bootcamp",
+		"Price": 299,
+		"website": "LearnCodeOnline.in", 
+		"tags": [
+				"web-dev",
+				"js"
+		]
+	}
+		`)
+
+	var lcoCourse course
+
+	isValid := json.Valid((jsonDataFromWeb))
+	if isValid {
+		fmt.Println("JSON is valid")
+		json.Unmarshal(jsonDataFromWeb, &lcoCourse)
+		fmt.Printf("%#v\n", lcoCourse)
+	} else {
+		fmt.Println("JSON is invalid")
+	}
+
+	// some case we need jsondata to key value
+
+	var myOnlineData map[string]interface{}
+	json.Unmarshal(jsonDataFromWeb, &myOnlineData)
+	fmt.Printf("%#v\n", myOnlineData)
+
+	for k, v := range myOnlineData {
+		fmt.Printf("Key is %v and value is %v and Type is: %T\n", k, v, v)
+	}
 }
